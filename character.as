@@ -3,23 +3,54 @@ package{
 	import flash.display.MovieClip;
 
 	public class Character{
-		var pos:Point;
-		var velocity:Point;
-		var mc:MovieClip;
+		private var pos:Point;
+		private var velocity:Point;//current x speed, max y speed
+		private var maxVelocity:Point;//max x speed, max y speed
+		private var mc:MovieClip;
 
 		public function Character(){
-			
+			init();
 		}
-
+		public function init():void{
+			pos = new Point(1,1);
+			velocity = new Point(0,0);
+			maxVelocity = new Point(10,10);
+		}
 		//updates this Character
 		public function update(){
+			//don't go above or below max velocity
+			velocity.x = velocity.x > maxVelocity.x ? maxVelocity.x:velocity.x;
+			velocity.x = velocity.x < -maxVelocity.x ? -maxVelocity.x:velocity.x;
+			velocity.y = velocity.y > maxVelocity.y ? maxVelocity.y:velocity.y;
+			velocity.y = velocity.y < -maxVelocity.y ? -maxVelocity.y:velocity.y;
+			//move Character
+			pos.x = pos.x + velocity.x;
+			pos.y = pos.y + velocity.y;
+			//set the movieclip's position
 			mc.x = pos.x;
 			mc.y = pos.y;
+
 		}
-		public function init(){
-			pos = new Point();
-			velocity = new Point();
-			
+		//
+		public function slowDown():void{
+			var slowRate = .95;
+			//lower velocity
+			velocity.x = velocity.x * slowRate;
+			velocity.y = velocity.y * slowRate;
+		}
+
+		//movement
+		public function moveLeft():void{
+			velocity.x = velocity.x - 1;
+		}
+		public function moveUp():void{
+			velocity.y = velocity.y - 1;
+		}
+		public function moveRight():void{
+			velocity.x = velocity.x + 1;
+		}
+		public function moveDown():void{
+			velocity.y = velocity.y + 1;
 		}
 		//movieclip
 		public function setMC(newMC:MovieClip):MovieClip{
