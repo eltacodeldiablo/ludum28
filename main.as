@@ -11,7 +11,7 @@
 		private var mapCanvas:Sprite;
 		private var mapData:Map;
 		private var tileWidth:Number = 80;
-		private var roomSize:Number = 10;
+		private var roomSize:Point = new Point(10,10);//room width, room height
 
 		private var hero:Character;//player character
 		private var playerControl:Controls;//controller for player input
@@ -28,7 +28,7 @@
 			addChild(mapCanvas);
 			mapCanvas.graphics.clear();
 
-			mapData = new Map(roomSize,roomSize);
+			mapData = new Map(roomSize.x,roomSize.y);
 			drawLevel(mapData);
 			init();
 		}
