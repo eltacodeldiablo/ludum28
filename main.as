@@ -11,7 +11,7 @@
 		private var mapCanvas:Sprite;
 		private var mapData:Map;
 		private var tileSize:Point = new Point(80,80);//tile width, room heights
-		private var roomSize:Point = new Point(7,7);//room width, room height
+		private var roomSize:Point = new Point(3,5);//room width, room height
 
 		private var hero:Character;//player character
 		private var playerControl:Controls;//controller for player input
@@ -35,7 +35,9 @@
 		public function main_loop(e:Event):void{
 			hero.update();
 			playerControl.update();
-			trace(getTileFromPosition(hero.getPos()))
+			collisionChecker(hero);
+
+			//trace(getTileFromPosition(hero.getPos()))
 		}
 		//init
 		public function init(){
@@ -43,6 +45,38 @@
 			playerControl = new Controls(hero);
 			cameraTarget = hero.getPos();
 			resetCamera();
+		}
+		//collision for player
+		public function collisionChecker(char:Character):void{
+			var tilew = getTileSize().x;
+			var tileh = getTileSize().y;
+			var charpos = char.getPos();
+			var buffer = 10;
+			var roomMax = new Point(roomSize.x*tilew, roomSize.y*tileh);
+			//var tileCheck = getTileFromPosition(char.getLeft() - buffer, charpos.y));
+
+			if(char.getLeft()<0){//left
+				char.setLeftCollision(true);
+			}else{
+				char.setLeftCollision(false);
+			}
+			trace(char.getTop())
+			if(char.getTop()<0){//up
+				char.setUpCollision(true);
+			}else{
+				char.setUpCollision(false);
+			}
+			if(char.getRight()>roomMax.x){//right
+				char.setRightCollision(true);
+			}else{
+				char.setRightCollision(false);
+			}
+			if(char.getBottom()>roomMax.y){//down
+				char.setDownCollision(true);
+			}else{
+				char.setDownCollision(false);
+			}
+			
 		}
 		//-- camera --
 		public function cameraFollowCharacter(e:Event, cameraMode:String = "normal"){//camera also manages ui
@@ -76,7 +110,7 @@
 		public function resetCamera(){
 			root.scrollRect = new Rectangle(cameraTarget.x - (stage.stageWidth/2), cameraTarget.y - (stage.stageHeight/2), stage.stageWidth, stage.stageHeight);	
 		}
-		//
+		//creates a character
 		public function spawnChar(charmc:MovieClip, position:Point):Character{
 			var char:Character = new Character();
 			char.setMC(charmc);

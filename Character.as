@@ -9,9 +9,13 @@ package{
 		private var velocity:Point;//current x speed, max y speed
 		private var maxVelocity:Point;//max x speed, max y speed
 
-
 		private var speed:Number = 5;
 		private var friction:Number = .7;
+
+		private var leftHasCollision:Boolean = false,
+					upHasCollision:Boolean = false,
+					rightHasCollision:Boolean = false,
+					downHasCollision:Boolean = false;
 
 		public function Character(){
 			init();
@@ -29,12 +33,44 @@ package{
 			velocity.y = velocity.y > maxVelocity.y ? maxVelocity.y:velocity.y;
 			velocity.y = velocity.y < -maxVelocity.y ? -maxVelocity.y:velocity.y;
 			//move Character
-			pos.x = pos.x + velocity.x;
-			pos.y = pos.y + velocity.y;
+			if(leftHasCollision && velocity.x < 0){
+			}else if(rightHasCollision && velocity.x > 0){
+			}else{
+				pos.x = pos.x + velocity.x;
+			}
+			if(upHasCollision && velocity.y < 0){
+			}else if(downHasCollision && velocity.y > 0){
+			}else{
+				pos.y = pos.y + velocity.y;
+			}
 			//set the movieclip's position
 			mc.x = pos.x;
 			mc.y = pos.y;
 
+		}
+		//
+		public function setLeftCollision(boo:Boolean):Boolean{
+			leftHasCollision = boo;
+			return leftHasCollision;
+		}
+		public function setUpCollision(boo:Boolean):Boolean{
+			upHasCollision = boo;
+			return upHasCollision;
+		}
+		public function setRightCollision(boo:Boolean):Boolean{
+			rightHasCollision = boo;
+			return rightHasCollision;
+		}
+		public function setDownCollision(boo:Boolean):Boolean{
+			downHasCollision = boo;
+			return downHasCollision;
+		}
+		//
+		public function flipXVelocity():void{
+			velocity.x = -velocity.x;
+		}
+		public function flipYVelocity():void{
+			velocity.y = -velocity.y;
 		}
 		//slow down
 		public function horizontalSlow():void{
@@ -55,6 +91,19 @@ package{
 		}
 		public function moveDown():void{
 			velocity.y = velocity.y + speed;
+		}
+		//gets the extreme position of this thing
+		public function getLeft():Number{
+			return pos.x - mc.width/2;
+		}
+		public function getTop():Number{
+			return pos.y - mc.height/2;
+		}
+		public function getRight():Number{
+			return pos.x + mc.width/2;
+		}
+		public function getBottom():Number{
+			return pos.y + mc.height/2;
 		}
 		//movieclip
 		public function setMC(newMC:MovieClip):MovieClip{
