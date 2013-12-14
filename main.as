@@ -1,9 +1,9 @@
 ﻿package  {
 	import flash.geom.Point;
 	import flash.display.MovieClip;
-	import flash.events.KeyboardEvent;
 	import flash.events.Event;
 	import flash.display.Sprite;
+	import flash.events.KeyboardEvent;
 	import flash.utils.Dictionary;
 	//this is the main class!
 	public class main extends MovieClip {
@@ -12,17 +12,15 @@
 		private var tileWidth:Number = 80;
 
 		private var hero:Character;//player character
+		private var playerControl:Controls
 		private var controlDict:Dictionary;
-		private var leftPressed:Boolean = false,
-			upPressed:Boolean = false,
-			rightPressed:Boolean = false,
-			downPressed:Boolean = false;
+
 
 		private var i:int, j:int;
 		public function main(){
+			stage.addEventListener(Event.ENTER_FRAME, main_loop);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
-			stage.addEventListener(Event.ENTER_FRAME, main_loop);
 			//stage.addEventListener(Event.ENTER_FRAME, cameraFollowCharacter);
 
 			mapCanvas = new Sprite();
@@ -34,32 +32,13 @@
 			init();
 		}
 		public function main_loop(e:Event):void{
-			playerControl();
 			hero.update();
-		}
-		public function playerControl():void{
-			trace("\nleft: "+leftPressed +"\nright: "+rightPressed+"\nup: "+upPressed+"\ndown: "+downPressed)
-			if(leftPressed){
-				hero.moveLeft();
-			}
-			if(upPressed){
-				hero.moveUp();
-			}
-			if(rightPressed){
-				hero.moveRight();
-			}
-			if(downPressed){
-				hero.moveDown();
-			}
-			//stop moving
-			if(noButtonsPressed()){
-				hero.slowDown();
-			}
+			playerControl.update();
 		}
 		//init
 		public function init(){
-			initControls();
 			hero = spawnChar(new white_char(), getTileCenter(5,5));
+			playerControl = new Controls(hero);
 		}
 		//
 		public function spawnChar(charmc:MovieClip, position:Point):Character{
@@ -83,54 +62,30 @@
 				}
 			}
 		}
-		//control dictionary
-		public function initControls():Dictionary{
-			controlDict = new Dictionary();
-			controlDict["left"] = 37;
-			controlDict["up"] = 38;
-			controlDict["right"] = 39;
-			controlDict["down"] = 40;
-
-			controlDict["action1"] = 65;
-			controlDict["action1"] = 83;
-
-
-			return controlDict;
-		}
-		public function getControls():Dictionary{
-			return controlDict;
-		}
 		//key down event listener
 		public function keyDownHandler(e:KeyboardEvent):void {
-			var controls = getControls();
+			var controls = playerControl.getControls();
 			if (e.keyCode == controls["left"]) {
-				leftPressed = true;
+				playerControl.setLeft(true);
 			}else if (e.keyCode == controls["up"]) {
-				upPressed = true;
+				playerControl.setUp(true);
 			}else if (e.keyCode == controls["right"]) {
-				rightPressed = true;
+				playerControl.setRight(true);
 			}else if (e.keyCode == controls["down"]) {
-				downPressed = true;
+				playerControl.setDown(true);
 			}
 		}
-		//release handler
+		//key up event listener
 		public function keyUpHandler(e:KeyboardEvent):void {
-			var controls = getControls();
+			var controls = playerControl.getControls();
 			if (e.keyCode == controls["left"]) {
-				leftPressed = false;
+				playerControl.setLeft(false);
 			}else if (e.keyCode == controls["up"]) {
-				upPressed = false;
+				playerControl.setUp(false);
 			}else if (e.keyCode == controls["right"]) {
-				rightPressed = false;
+				playerControl.setRight(false);
 			}else if (e.keyCode == controls["down"]) {
-				downPressed = false;
-			}
-		}
-		public function noButtonsPressed():Boolean{
-			if(!leftPressed && !upPressed && !rightPressed && !downPressed){
-				return true;
-			}else{
-				return false;
+				playerControl.setDown(false);
 			}
 		}
 		//returns the x and y center value of tile at horizontal and vertical
