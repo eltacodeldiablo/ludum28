@@ -96,7 +96,7 @@
 					var y:int = tileHeight*j+tileHeight/2;
 					var type:int = mapData.getMapTile(i,j);
 					var tile = new floor1_tile(x,y,type);
-					addChild(tile);
+					mapCanvas.addChild(tile);
 				}
 			}
 		}
