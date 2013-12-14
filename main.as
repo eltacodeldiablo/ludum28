@@ -12,11 +12,7 @@ package  {
 
 		private var hero:character;//player character
 		private var i:int, j:int;
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> a480ea7ea79ce7ccd5fe574ae97906477847cb37
 		public function main(){
 			stage.addEventListener(Event.ENTER_FRAME, main_loop);
 

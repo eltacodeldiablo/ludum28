@@ -2,7 +2,7 @@
 bin/
 bin-debug/
 bin-release/
-AdamAtomic-flixel-8989e50/
+*.swf
 
 # Other files and folders
 .settings/
