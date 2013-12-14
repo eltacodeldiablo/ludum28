@@ -9,7 +9,7 @@
 	//this is the main class!
 	public class main extends MovieClip {
 		private var mapCanvas:Sprite;
-		private var mapData:Map;
+		private var roomData:Room;
 		private var tileSize:Point = new Point(80,80);//tile width, room heights
 		private var roomSize:Point = new Point(3,5);//room width, room height
 
@@ -28,8 +28,8 @@
 			addChild(mapCanvas);
 			mapCanvas.graphics.clear();
 
-			mapData = new Map(roomSize.x,roomSize.y);
-			drawLevel(mapData);
+			roomData = new Room(roomSize.x,roomSize.y);
+			drawLevel(roomData);
 			init();
 		}
 		public function main_loop(e:Event):void{
@@ -120,15 +120,15 @@
 		}
 
 		//draws the level
-		public function drawLevel(mapData:Map){
+		public function drawLevel(roomData:Map){
 			//test to fill up the screen
-			for(i=0;i<mapData.mapWidth;i++){
-				for(j=0;j<mapData.mapHeight;j++){
+			for(i=0;i<roomData.mapWidth;i++){
+				for(j=0;j<roomData.mapHeight;j++){
 					var tileWidth = getTileSize().x;
 					var tileHeight = getTileSize().y;
 					var x:int = tileWidth*i+tileWidth/2;
 					var y:int = tileHeight*j+tileHeight/2;
-					var type:int = mapData.getMapTile(i,j);
+					var type:int = roomData.getMapTile(i,j);
 					var tile = new floor1_tile(x,y,type);
 					mapCanvas.addChild(tile);
 				}
