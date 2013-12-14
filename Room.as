@@ -47,6 +47,9 @@ package {
         }
 
         public function getRoomTile(x:int,y:int):int {
+            if(x<0 || x>=_roomWidth || y<0 || y>=_roomHeight){
+                return -1;
+            }
             return _roomArray[x][y];
         }
     }

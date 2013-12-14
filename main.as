@@ -11,7 +11,7 @@
 		private var mapCanvas:Sprite;
 		private var roomData:Room;
 		private var tileSize:Point = new Point(80,80);//tile width, room heights
-		private var roomSize:Point = new Point(3,5);//room width, room height
+		private var roomSize:Point = new Point(7,7);//room width, room height
 
 		private var hero:Character;//player character
 		private var playerControl:Controls;//controller for player input
@@ -48,30 +48,33 @@
 		}
 		//collision for player
 		public function collisionChecker(char:Character):void{
-			var tilew = getTileSize().x;
-			var tileh = getTileSize().y;
-			var charpos = char.getPos();
-			var buffer = 10;
-			var roomMax = new Point(roomSize.x*tilew, roomSize.y*tileh);
-			//var tileCheck = getTileFromPosition(char.getLeft() - buffer, charpos.y));
+			var tilew:Number = getTileSize().x;
+			var tileh:Number = getTileSize().y;
+			var charpos:Point = char.getPos();
+			var roomMax:Point = new Point(roomSize.x*tilew, roomSize.y*tileh);			
+			var tilePosition:Point = getTileFromPosition(new Point(charpos.x, charpos.y));//gets the positional int for where the player currently is
+			var leftTile:int = roomData.getRoomTile(char.getLeftNumber(tilew), tilePosition.y);
+			var topTile:int = roomData.getRoomTile(tilePosition.x, char.getTopNumber(tileh));
+			var rightTile:int = roomData.getRoomTile(char.getRightNumber(tilew), tilePosition.y);
+			var bottomTile:int = roomData.getRoomTile(tilePosition.x, char.getBottomNumber(tileh));
 
-			if(char.getLeft()<0){//left
+			var wallTiles:Array = [1];//list of tile values that are considered a wall
+			if(wallTiles.indexOf(leftTile) >= 0 || leftTile <= 0  ){//left
 				char.setLeftCollision(true);
 			}else{
 				char.setLeftCollision(false);
 			}
-			trace(char.getTop())
-			if(char.getTop()<0){//up
+			if(wallTiles.indexOf(topTile) >= 0 || topTile <= 0){//up
 				char.setUpCollision(true);
 			}else{
 				char.setUpCollision(false);
 			}
-			if(char.getRight()>roomMax.x){//right
+			if(wallTiles.indexOf(rightTile) >= 0 || rightTile <= 0){//right
 				char.setRightCollision(true);
 			}else{
 				char.setRightCollision(false);
 			}
-			if(char.getBottom()>roomMax.y){//down
+			if(wallTiles.indexOf(bottomTile) >= 0 || bottomTile <= 0){//down
 				char.setDownCollision(true);
 			}else{
 				char.setDownCollision(false);
@@ -165,7 +168,7 @@
 			var pos = positionalPoint;
 			var tileWidth = getTileSize().x;
 			var tileHeight = getTileSize().y;
-			var tilept = new Point(Math.ceil(pos.x/tileWidth), Math.ceil(pos.y/tileHeight));
+			var tilept = new Point(Math.floor(pos.x/tileWidth), Math.floor(pos.y/tileHeight));
 			return tilept;
 		}
 		//returns the x and y center value of tile at horizontal and vertical

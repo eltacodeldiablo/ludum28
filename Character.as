@@ -105,6 +105,19 @@ package{
 		public function getBottom():Number{
 			return pos.y + mc.height/2;
 		}
+		//
+		public function getLeftNumber(tileWidth:Number):int{
+			return Math.floor(getLeft()/tileWidth);
+		}
+		public function getTopNumber(tileWidth:Number):int{
+			return Math.floor(getTop()/tileWidth);
+		}
+		public function getRightNumber(tileWidth:Number):int{
+			return Math.floor(getRight()/tileWidth);
+		}
+		public function getBottomNumber(tileWidth:Number):int{
+			return Math.floor(getBottom()/tileWidth);
+		}
 		//movieclip
 		public function setMC(newMC:MovieClip):MovieClip{
 			mc = newMC;
