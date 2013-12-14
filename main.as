@@ -5,6 +5,7 @@
 	import flash.display.Sprite;
 	import flash.events.KeyboardEvent;
 	import flash.utils.Dictionary;
+	import flash.geom.Rectangle;
 	//this is the main class!
 	public class main extends MovieClip {
 		private var mapCanvas:Sprite;
@@ -12,16 +13,15 @@
 		private var tileWidth:Number = 80;
 
 		private var hero:Character;//player character
-		private var playerControl:Controls
-		private var controlDict:Dictionary;
-
+		private var playerControl:Controls;//controller for player input
+		private var cameraTarget:Point;//point where the camera should look at
 
 		private var i:int, j:int;
 		public function main(){
 			stage.addEventListener(Event.ENTER_FRAME, main_loop);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
-			//stage.addEventListener(Event.ENTER_FRAME, cameraFollowCharacter);
+			stage.addEventListener(Event.ENTER_FRAME, cameraFollowCharacter);
 
 			mapCanvas = new Sprite();
 			addChild(mapCanvas);
@@ -39,6 +39,40 @@
 		public function init(){
 			hero = spawnChar(new white_char(), getTileCenter(5,5));
 			playerControl = new Controls(hero);
+			cameraTarget = hero.getPos();
+			resetCamera();
+		}
+		//-- camera --
+		public function cameraFollowCharacter(e:Event, cameraMode:String = "normal"){//camera also manages ui
+			if(cameraTarget!=null && root.scrollRect!=null){
+				var currRect = root.scrollRect;
+
+				//calculate difference in x 
+				var xdifference = (currRect.x + (stage.stageWidth/2)) - cameraTarget.x;
+				var xmove = 0;
+				if(Math.abs(xdifference)>10){
+					xmove = Math.sqrt(Math.abs(xdifference));
+					if(xdifference > 0){
+						xmove *= -1;
+					}
+				}
+				//calculate difference in y
+				var ydifference = (currRect.y + (stage.stageHeight/2)) - cameraTarget.y;
+				var ymove = 0;
+				if(Math.abs(ydifference)>10){
+					ymove = Math.sqrt(Math.abs(ydifference));
+					if(ydifference > 0){
+						ymove *= -1;
+					}
+				}
+				//move camera
+				root.scrollRect = new Rectangle(currRect.x + xmove, currRect.y + ymove, stage.stageWidth, stage.stageHeight);	
+			}else{
+				root.scrollRect = new Rectangle(cameraTarget.x - (stage.stageWidth/2), cameraTarget.y - (stage.stageHeight/2), stage.stageWidth, stage.stageHeight);	
+			}
+		}
+		public function resetCamera(){
+			root.scrollRect = new Rectangle(cameraTarget.x - (stage.stageWidth/2), cameraTarget.y - (stage.stageHeight/2), stage.stageWidth, stage.stageHeight);	
 		}
 		//
 		public function spawnChar(charmc:MovieClip, position:Point):Character{

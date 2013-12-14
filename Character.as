@@ -6,6 +6,9 @@ package{
 		private var pos:Point;
 		private var velocity:Point;//current x speed, max y speed
 		private var maxVelocity:Point;//max x speed, max y speed
+
+
+		private var speed:Number = 7;
 		private var mc:MovieClip;
 
 		public function Character(){
@@ -33,7 +36,7 @@ package{
 		}
 		//
 		public function slowDown():void{
-			var slowRate = .95;
+			var slowRate = .7;
 			//lower velocity
 			velocity.x = velocity.x * slowRate;
 			velocity.y = velocity.y * slowRate;
@@ -41,16 +44,16 @@ package{
 
 		//movement
 		public function moveLeft():void{
-			velocity.x = velocity.x - 1;
+			velocity.x = velocity.x - speed;
 		}
 		public function moveUp():void{
-			velocity.y = velocity.y - 1;
+			velocity.y = velocity.y - speed;
 		}
 		public function moveRight():void{
-			velocity.x = velocity.x + 1;
+			velocity.x = velocity.x + speed;
 		}
 		public function moveDown():void{
-			velocity.y = velocity.y + 1;
+			velocity.y = velocity.y + speed;
 		}
 		//movieclip
 		public function setMC(newMC:MovieClip):MovieClip{
