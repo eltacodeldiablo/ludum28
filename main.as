@@ -83,7 +83,7 @@
 			if(cameraTarget!=null && root.scrollRect!=null){
 				var currRect = root.scrollRect;
 
-				//calculate difference in x 
+				//calculate difference in x
 				var xdifference = (currRect.x + (stage.stageWidth/2)) - cameraTarget.x;
 				var xmove = 0;
 				if(Math.abs(xdifference)>10){
@@ -102,13 +102,13 @@
 					}
 				}
 				//move camera
-				root.scrollRect = new Rectangle(currRect.x + xmove, currRect.y + ymove, stage.stageWidth, stage.stageHeight);	
+				root.scrollRect = new Rectangle(currRect.x + xmove, currRect.y + ymove, stage.stageWidth, stage.stageHeight);
 			}else{
-				root.scrollRect = new Rectangle(cameraTarget.x - (stage.stageWidth/2), cameraTarget.y - (stage.stageHeight/2), stage.stageWidth, stage.stageHeight);	
+				root.scrollRect = new Rectangle(cameraTarget.x - (stage.stageWidth/2), cameraTarget.y - (stage.stageHeight/2), stage.stageWidth, stage.stageHeight);
 			}
 		}
 		public function resetCamera(){
-			root.scrollRect = new Rectangle(cameraTarget.x - (stage.stageWidth/2), cameraTarget.y - (stage.stageHeight/2), stage.stageWidth, stage.stageHeight);	
+			root.scrollRect = new Rectangle(cameraTarget.x - (stage.stageWidth/2), cameraTarget.y - (stage.stageHeight/2), stage.stageWidth, stage.stageHeight);
 		}
 		//creates a character
 		public function spawnChar(charmc:MovieClip, position:Point):Character{
@@ -128,9 +128,9 @@
 					var tileHeight = getTileSize().y;
 					var x:int = tileWidth*i+tileWidth/2;
 					var y:int = tileHeight*j+tileHeight/2;
-					var type:int = Math.ceil(Math.random()*4);
+					var type:int = mapData.getMapTile(i,j);
 					var tile = new floor1_tile(x,y,type);
-					addChild(tile);
+					mapCanvas.addChild(tile);
 				}
 			}
 		}
