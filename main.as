@@ -120,15 +120,15 @@
 		}
 
 		//draws the level
-		public function drawLevel(roomData:Map){
+		public function drawLevel(roomData:Room){
 			//test to fill up the screen
-			for(i=0;i<roomData.mapWidth;i++){
-				for(j=0;j<roomData.mapHeight;j++){
+			for(i=0;i<roomData.roomWidth;i++){
+				for(j=0;j<roomData.roomHeight;j++){
 					var tileWidth = getTileSize().x;
 					var tileHeight = getTileSize().y;
 					var x:int = tileWidth*i+tileWidth/2;
 					var y:int = tileHeight*j+tileHeight/2;
-					var type:int = roomData.getMapTile(i,j);
+					var type:int = roomData.getRoomTile(i,j);
 					var tile = new floor1_tile(x,y,type);
 					mapCanvas.addChild(tile);
 				}
