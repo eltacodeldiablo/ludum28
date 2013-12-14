@@ -1,4 +1,4 @@
-package {
+﻿package {
 	import flash.utils.Dictionary;
 
 	public class Controls {
@@ -13,7 +13,6 @@ package {
 
 
 		public function Controls(controlledChar:Character){
-
 
 			char = controlledChar;
 			initControls();
@@ -33,8 +32,11 @@ package {
 				char.moveDown();
 			}
 			//stop moving
-			if(noButtonsPressed()){
-				char.slowDown();
+			if(noVerticalButtons()){
+				char.verticalSlow();
+			}
+			if(noHorizontalButtons()){
+				char.horizontalSlow();
 			}
 		}
 		//control dictionary
@@ -70,6 +72,22 @@ package {
 		public function setDown(boo:Boolean):Boolean{
 			downPressed = boo;
 			return downPressed;
+		}
+		//true if no vertical buttons are pressed
+		public function noVerticalButtons():Boolean{
+			if(!upPressed && !downPressed){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		//true if no horizontal buttons are pressed
+		public function noHorizontalButtons():Boolean{
+			if(!leftPressed && !rightPressed){
+				return true;
+			}else{
+				return false;
+			}
 		}
 		//returns true if no buttons are pressed
 		public function noButtonsPressed():Boolean{

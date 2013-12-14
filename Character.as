@@ -3,13 +3,15 @@ package{
 	import flash.display.MovieClip;
 
 	public class Character{
+
+		private var mc:MovieClip;
 		private var pos:Point;
 		private var velocity:Point;//current x speed, max y speed
 		private var maxVelocity:Point;//max x speed, max y speed
 
 
-		private var speed:Number = 7;
-		private var mc:MovieClip;
+		private var speed:Number = 5;
+		private var friction:Number = .7;
 
 		public function Character(){
 			init();
@@ -34,14 +36,13 @@ package{
 			mc.y = pos.y;
 
 		}
-		//
-		public function slowDown():void{
-			var slowRate = .7;
-			//lower velocity
-			velocity.x = velocity.x * slowRate;
-			velocity.y = velocity.y * slowRate;
+		//slow down
+		public function horizontalSlow():void{
+			velocity.x = velocity.x * friction;
 		}
-
+		public function verticalSlow():void{
+			velocity.y = velocity.y * friction;
+		}
 		//movement
 		public function moveLeft():void{
 			velocity.x = velocity.x - speed;
