@@ -10,7 +10,7 @@ package  {
 		private var mapData:Map;
 		private var tileWidth:Number = 80;
 
-		private var hero:character;//player character
+		private var hero:Character;//player character
 		private var i:int, j:int;
 
 		public function main(){
