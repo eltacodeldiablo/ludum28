@@ -10,8 +10,8 @@
 	public class main extends MovieClip {
 		private var mapCanvas:Sprite;
 		private var mapData:Map;
-		private var tileWidth:Number = 80;
-		private var roomSize:Point = new Point(10,10);//room width, room height
+		private var tileSize:Point = new Point(80,80);//tile width, room heights
+		private var roomSize:Point = new Point(7,7);//room width, room height
 
 		private var hero:Character;//player character
 		private var playerControl:Controls;//controller for player input
@@ -35,10 +35,11 @@
 		public function main_loop(e:Event):void{
 			hero.update();
 			playerControl.update();
+			trace(getTileFromPosition(hero.getPos()))
 		}
 		//init
 		public function init(){
-			hero = spawnChar(new white_char(), getTileCenter(5,5));
+			hero = spawnChar(new white_char(), getTileCenter(2,2));
 			playerControl = new Controls(hero);
 			cameraTarget = hero.getPos();
 			resetCamera();
@@ -89,8 +90,10 @@
 			//test to fill up the screen
 			for(i=0;i<mapData.mapWidth;i++){
 				for(j=0;j<mapData.mapHeight;j++){
+					var tileWidth = getTileSize().x;
+					var tileHeight = getTileSize().y;
 					var x:int = tileWidth*i+tileWidth/2;
-					var y:int = tileWidth*j+tileWidth/2;
+					var y:int = tileHeight*j+tileHeight/2;
 					var type:int = Math.ceil(Math.random()*4);
 					var tile = new floor1_tile(x,y,type);
 					addChild(tile);
@@ -123,14 +126,22 @@
 				playerControl.setDown(false);
 			}
 		}
+		//uses x, y positional data to find what tile it is in
+		public function getTileFromPosition(positionalPoint:Point):Point{
+			var pos = positionalPoint;
+			var tileWidth = getTileSize().x;
+			var tileHeight = getTileSize().y;
+			var tilept = new Point(Math.ceil(pos.x/tileWidth), Math.ceil(pos.y/tileHeight));
+			return tilept;
+		}
 		//returns the x and y center value of tile at horizontal and vertical
 		public function getTileCenter(horizontal:int, vertical:int):Point{
-			var w = getTileWidth();
+			var w = getTileSize().x;
 			return new Point(horizontal*w-w/2, vertical*w-w/2);
 		}
 		//gets the width of a tile, which should be the same as height
-		public function getTileWidth():Number{
-			return tileWidth;
+		public function getTileSize():Point{
+			return tileSize;
 		}
 	}
 }
