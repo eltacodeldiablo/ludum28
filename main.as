@@ -72,16 +72,16 @@
 
 		//draws the level
 		public function drawLevel(mapData:Map){
-		//test to fill up the screen
-		for(i=0;i<mapData.mapWidth;i++){
-			for(j=0;j<mapData.mapHeight;j++){
-				var x:int = tileWidth*j+tileWidth/2;
-				var x:int = y;
-				var type:int = Math.ceil(Math.random()*4);
-				var tile = new floor1_tile(x,y,type);
-				addChild(tile);
-			}
-		}
+    		//test to fill up the screen
+    		for(i=0;i<mapData.mapWidth;i++){
+    			for(j=0;j<mapData.mapHeight;j++){
+    				var x:int = tileWidth*i+tileWidth/2;
+    				var y:int = tileWidth*j+tileWidth/2;
+    				var type:int = Math.ceil(Math.random()*4);
+    				var tile = new floor1_tile(x,y,type);
+    				addChild(tile);
+    			}
+    		}
 		}
         //control dictionary
         public function initControls():Dictionary{
