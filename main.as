@@ -76,7 +76,7 @@
 			}else{
 				char.setDownCollision(false);
 			}
-			
+
 		}
 		//-- camera --
 		public function cameraFollowCharacter(e:Event, cameraMode:String = "normal"){//camera also manages ui
