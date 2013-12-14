@@ -1,15 +1,40 @@
 package  {
+	import flash.geom.Point;
 	import flash.display.MovieClip;
 	import flash.events.KeyboardEvent;
 	import flash.events.Event;
 	//this is the main class!
 	public class main extends MovieClip {
-		public var i:int, j:int;
-		public var tileWidth:Number = 80;
 
+		var tileWidth:Number = 80;
+		//
+		var hero:character;//player character
+
+		public var i:int, j:int;
 		public function main(){
+			stage.addEventListener(Event.ENTER_FRAME, main_loop);
+
 			drawLevel();
+			init();
 		}
+		public function main_loop(e:Event){
+			hero.update();
+		}
+
+		//init
+		public function init(){
+			hero = spawnChar(new white_char(), getTileCenter(5,5));
+		}
+		//
+		public function spawnChar(charmc:MovieClip, position:Point):character{
+			var char:character = new character();
+			char.setMC(charmc);
+			char.setPos(new Point(position.x, position.y));
+			addChild(char.getMC());
+			return char;
+		}
+
+		//draws the level
 		public function drawLevel(){
 			//test to fill up the screen
 			for(i=0;i<10;i++){
@@ -46,6 +71,13 @@ package  {
 		public function keyUpHandler(e:KeyboardEvent):void {
 
 		}
+
+		//returns the x and y center value of tile at horizontal and vertical
+		public function getTileCenter(horizontal:int, vertical:int):Point{
+			var w = getTileWidth();
+			return new Point(horizontal*w-w/2, vertical*w-w/2);
+		}
+		//gets the width of a tile, which should be the same as height
 		public function getTileWidth(){
 			return tileWidth;
 		}
