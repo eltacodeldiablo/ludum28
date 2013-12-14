@@ -1,7 +1,7 @@
 package{
-	public class room{
-		public function room(){
-			
+	public class Room{
+		public function Room(){
+
 		}
 	}
 }
