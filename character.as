@@ -2,16 +2,16 @@ package{
 	import flash.geom.Point;
 	import flash.display.MovieClip;
 
-	public class character{
+	public class Character{
 		var pos:Point;
 		var velocity:Point;
 		var mc:MovieClip;
 
-		public function character(){
+		public function Character(){
 			
 		}
 
-		//updates this character
+		//updates this Character
 		public function update(){
 			mc.x = pos.x;
 			mc.y = pos.y;

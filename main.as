@@ -8,7 +8,7 @@ package  {
 
 		var tileWidth:Number = 80;
 		//
-		var hero:character;//player character
+		var hero:Character;//player Character
 
 		public var i:int, j:int;
 		public function main(){
@@ -26,8 +26,8 @@ package  {
 			hero = spawnChar(new white_char(), getTileCenter(5,5));
 		}
 		//
-		public function spawnChar(charmc:MovieClip, position:Point):character{
-			var char:character = new character();
+		public function spawnChar(charmc:MovieClip, position:Point):Character{
+			var char:Character = new Character();
 			char.setMC(charmc);
 			char.setPos(new Point(position.x, position.y));
 			addChild(char.getMC());
