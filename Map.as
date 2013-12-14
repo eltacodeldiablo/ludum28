@@ -35,5 +35,11 @@ package {
 			_mapHeight = value;
 		}
 
+		public function get mapArray():Array {
+			return _mapArray;
+		}
+		public function set mapArray(value:Array):void {
+			_mapArray = value;
+		}
 	}
 }
