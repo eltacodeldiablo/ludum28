@@ -36,8 +36,6 @@
 			hero.update();
 			playerControl.update();
 			collisionChecker(hero);
-
-			//trace(getTileFromPosition(hero.getPos()))
 		}
 		//init
 		public function init(){
@@ -51,7 +49,7 @@
 			var tilew:Number = getTileSize().x;
 			var tileh:Number = getTileSize().y;
 			var charpos:Point = char.getPos();
-			var roomMax:Point = new Point(roomSize.x*tilew, roomSize.y*tileh);			
+			var roomMax:Point = new Point(roomData.roomWidth*tilew, roomData.roomHeight*tileh);			
 			var tilePosition:Point = getTileFromPosition(new Point(charpos.x, charpos.y));//gets the positional int for where the player currently is
 			var leftTile:int = roomData.getRoomTile(char.getLeftNumber(tilew), tilePosition.y);
 			var topTile:int = roomData.getRoomTile(tilePosition.x, char.getTopNumber(tileh));
@@ -59,6 +57,8 @@
 			var bottomTile:int = roomData.getRoomTile(tilePosition.x, char.getBottomNumber(tileh));
 
 			var wallTiles:Array = [1];//list of tile values that are considered a wall
+			wallTiles[0] = char.getColor()+1;
+			
 			if(wallTiles.indexOf(leftTile) >= 0 || leftTile <= 0  ){//left
 				char.setLeftCollision(true);
 			}else{
@@ -79,7 +79,6 @@
 			}else{
 				char.setDownCollision(false);
 			}
-
 		}
 		//-- camera --
 		public function cameraFollowCharacter(e:Event, cameraMode:String = "normal"){//camera also manages ui
@@ -104,6 +103,9 @@
 						ymove *= -1;
 					}
 				}
+				var speedmodifier = .6;
+				xmove = xmove*speedmodifier;
+				ymove = ymove*speedmodifier;
 				//move camera
 				root.scrollRect = new Rectangle(currRect.x + xmove, currRect.y + ymove, stage.stageWidth, stage.stageHeight);
 			}else{
@@ -148,6 +150,10 @@
 				playerControl.setRight(true);
 			}else if (e.keyCode == controls["down"]) {
 				playerControl.setDown(true);
+			}else if (e.keyCode == controls["action1"]) {
+				playerControl.setAction1(true);
+			}else if (e.keyCode == controls["action2"]) {
+				playerControl.setAction2(true);
 			}
 		}
 		//key up event listener
@@ -161,6 +167,10 @@
 				playerControl.setRight(false);
 			}else if (e.keyCode == controls["down"]) {
 				playerControl.setDown(false);
+			}else if (e.keyCode == controls["action1"]) {
+				playerControl.setAction1(false);
+			}else if (e.keyCode == controls["action2"]) {
+				playerControl.setAction2(false);
 			}
 		}
 		//uses x, y positional data to find what tile it is in

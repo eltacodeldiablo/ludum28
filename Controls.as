@@ -9,7 +9,9 @@
 		private var leftPressed:Boolean = false,
 					upPressed:Boolean = false,
 					rightPressed:Boolean = false,
-					downPressed:Boolean = false;
+					downPressed:Boolean = false,
+					action1Pressed:Boolean = false,
+					action2Pressed:Boolean = false;
 
 
 		public function Controls(controlledChar:Character){
@@ -18,6 +20,10 @@
 			initControls();
 		}
 		public function update():void{
+			if(action1Pressed){
+				char.incrementColor();
+				setAction1(false);
+			}
 			//trace("\nleft: "+leftPressed +"\nright: "+rightPressed+"\nup: "+upPressed+"\ndown: "+downPressed)
 			if(leftPressed){
 				char.moveLeft();
@@ -48,7 +54,7 @@
 			controlDict["down"] = 40;
 
 			controlDict["action1"] = 65;
-			controlDict["action1"] = 83;
+			controlDict["action2"] = 83;
 
 
 			return controlDict;
@@ -73,6 +79,15 @@
 			downPressed = boo;
 			return downPressed;
 		}
+		public function setAction1(boo:Boolean):Boolean{
+			action1Pressed = boo;
+			return action1Pressed;
+		}
+		public function setAction2(boo:Boolean):Boolean{
+			action2Pressed = boo;
+			return action2Pressed;
+		}
+		
 		//true if no vertical buttons are pressed
 		public function noVerticalButtons():Boolean{
 			if(!upPressed && !downPressed){
